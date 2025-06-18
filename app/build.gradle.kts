@@ -7,6 +7,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
+<<<<<<< HEAD
         dependencies {
             // 既存の依存関係 ...
 
@@ -24,6 +25,8 @@ android {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
         }
 
+=======
+>>>>>>> 92d54545549ea62d0cdbd422d0205151cbe3d352
         applicationId = "com.example.kicklog"
         minSdk = 24
         targetSdk = 35
@@ -54,7 +57,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+<<<<<<< HEAD
     implementation(libs.recyclerview)
+=======
+>>>>>>> 92d54545549ea62d0cdbd422d0205151cbe3d352
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
