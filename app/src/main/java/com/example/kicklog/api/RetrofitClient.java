@@ -1,3 +1,8 @@
+package com.example.kicklog.api;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class RetrofitClient {
     private static Retrofit retrofit;
 
@@ -11,4 +16,5 @@ public class RetrofitClient {
         return retrofit;
     }
 }
+
 

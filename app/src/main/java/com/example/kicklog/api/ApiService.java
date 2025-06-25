@@ -1,6 +1,10 @@
-import android.telecom.Call;
+package com.example.kicklog.api;
 
 import com.example.kicklog.model.PlayerResponse;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @Headers({
@@ -9,4 +13,5 @@ public interface ApiService {
     @GET("players")
     Call<PlayerResponse> getPlayers(@Query("team") int teamId, @Query("season") int season);
 }
+
 

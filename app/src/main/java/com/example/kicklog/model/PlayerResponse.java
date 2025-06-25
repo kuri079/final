@@ -1,5 +1,13 @@
+package com.example.kicklog.model;
+
+import java.util.List;
+
 public class PlayerResponse {
-    public List<PlayerData> response;
+    private List<PlayerData> response;
+
+    public List<PlayerData> getResponse() {
+        return response;
+    }
 
     public static class PlayerData {
         public Player player;
@@ -27,4 +35,3 @@ public class PlayerResponse {
         public int total;
     }
 }
-
