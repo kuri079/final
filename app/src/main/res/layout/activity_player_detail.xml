@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- 名前など -->
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/StatValue"/>
+
+        <TextView
+            android:id="@+id/tvNationality"
+            style="@style/StatLabel"/>
+
+        <TextView
+            android:id="@+id/tvPosition"
+            style="@style/StatLabel"/>
+
+        <TextView
+            android:id="@+id/tvBirth"
+            style="@style/StatLabel"/>
+        <!-- activity_player_detail.xml 内、Stat の行を追加 -->
+        <TextView
+            android:id="@+id/valApps"
+            style="@style/StatValue"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/valGoals"
+            style="@style/StatValue"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/valAssists"
+            style="@style/StatValue"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/valYel"
+            style="@style/StatValue"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/valRed"
+            style="@style/StatValue"
+            android:text="-" />
+
+
+    </LinearLayout>
+</ScrollView>

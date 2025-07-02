@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">kicklog</string>
+    <string name="app_name">KickLog</string>
+
+    <!-- 表示名とコードをペアで定義 -->
+    <string-array name="league_names">
+        <item>Premier League</item>
+        <item>La Liga</item>
+        <item>Serie A</item>
+        <item>Bundesliga</item>
+        <item>Ligue 1</item>
+    </string-array>
+
+    <string-array name="league_codes">
+        <item>PL</item>  <!-- England -->
+        <item>PD</item>  <!-- Spain -->
+        <item>SA</item>  <!-- Italy -->
+        <item>BL1</item> <!-- Germany -->
+        <item>FL1</item> <!-- France -->
+    </string-array>
 </resources>

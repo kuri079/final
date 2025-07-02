@@ -1,47 +1,58 @@
 package com.example.kicklog;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.kicklog.adapter.PlayerAdapter;
+import com.example.kicklog.adapter.TeamAdapter;
 import com.example.kicklog.api.ApiService;
 import com.example.kicklog.api.RetrofitClient;
-import com.example.kicklog.model.PlayerResponse;
+import com.example.kicklog.model.TeamResponse;
+import com.example.kicklog.util.Constants;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private PlayerAdapter adapter;
+    private Spinner leagueSpinner; private RecyclerView rv; private ApiService api;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle s){
+        super.onCreate(s); setContentView(R.layout.activity_main);
+        leagueSpinner = findViewById(R.id.leagueSpinner);
+        rv = findViewById(R.id.recyclerView); rv.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayAdapter<CharSequence> ad = ArrayAdapter.createFromResource(
+                this,R.array.league_names,android.R.layout.simple_spinner_item);
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        leagueSpinner.setAdapter(ad);
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<PlayerResponse> call = apiService.getPlayers(33, 2023);
+        api = RetrofitClient.getClient().create(ApiService.class);
 
-        call.enqueue(new Callback<PlayerResponse>() {
-            @Override
-            public void onResponse(Call<PlayerResponse> call, Response<PlayerResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    adapter = new PlayerAdapter(response.body().getResponse());
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    Toast.makeText(MainActivity.this, "データ取得失敗", Toast.LENGTH_SHORT).show();
-                }
+        leagueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> p, View v,int pos,long id){
+                String[] codes = getResources().getStringArray(R.array.league_codes);
+                fetchTeams(codes[pos]);
             }
+            public void onNothingSelected(AdapterView<?> p){}
+        });
+    }
 
-            @Override
-            public void onFailure(Call<PlayerResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "通信エラー: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+    private void fetchTeams(String code){
+        api.getTeams(Constants.API_KEY,code).enqueue(new Callback<TeamResponse>() {
+            public void onResponse(Call<TeamResponse> c, Response<TeamResponse> r){
+                Log.d("API_DEBUG","code="+r.code());
+                if(r.isSuccessful() && r.body()!=null && r.body().teams!=null)
+                    rv.setAdapter(new TeamAdapter(r.body().teams));
+                else Toast.makeText(MainActivity.this,"取得失敗:"+r.code(),Toast.LENGTH_SHORT).show();
+            }
+            public void onFailure(Call<TeamResponse> c, Throwable t){
+                Toast.makeText(MainActivity.this,"通信エラー:"+t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }

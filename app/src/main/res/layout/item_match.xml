@@ -6,20 +6,14 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/playerName"
+        android:id="@+id/txtTeams"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="16sp"/>
 
     <TextView
-        android:id="@+id/playerPosition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"/>
-
-    <TextView
-        android:id="@+id/playerNationality"
+        android:id="@+id/txtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"

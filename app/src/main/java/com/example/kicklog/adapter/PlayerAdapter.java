@@ -3,51 +3,45 @@ package com.example.kicklog.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
 import com.example.kicklog.R;
-import com.example.kicklog.model.PlayerResponse;
+import com.example.kicklog.model.TeamResponse;   // ← ここを TeamDetailResponse から変更
 import java.util.List;
 
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
-    private List<PlayerResponse.PlayerData> playerList;
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.VH> {
 
-    public PlayerAdapter(List<PlayerResponse.PlayerData> playerList) {
-        this.playerList = playerList;
+    private final List<TeamResponse.Squad> list;  // ← 型を統一
+
+    public PlayerAdapter(List<TeamResponse.Squad> list){
+        this.list = list;
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player, parent, false);
-        return new ViewHolder(view);
+    @NonNull @Override
+    public VH onCreateViewHolder(@NonNull ViewGroup p, int v){
+        View vItem = LayoutInflater.from(p.getContext())
+                .inflate(R.layout.item_player, p, false);
+        return new VH(vItem);
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        PlayerResponse.PlayerData playerData = playerList.get(position);
-        holder.name.setText(playerData.player.name);
-        holder.goals.setText("得点: " + playerData.statistics.get(0).goals.total);
-        Glide.with(holder.itemView.getContext())
-                .load(playerData.player.photo)
-                .into(holder.photo);
+    @Override public void onBindViewHolder(@NonNull VH h, int pos){
+        
+        TeamResponse.Squad s = list.get(pos);
+        h.name.setText(s.name);
+        h.pos.setText(s.position);
+        h.nat.setText(s.nationality);
     }
 
-    @Override
-    public int getItemCount() {
-        return playerList.size();
-    }
+    @Override public int getItemCount(){ return list.size(); }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, goals;
-        ImageView photo;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            name = itemView.findViewById(R.id.playerName);
-            goals = itemView.findViewById(R.id.playerGoals);
-            photo = itemView.findViewById(R.id.playerPhoto);
+    static class VH extends RecyclerView.ViewHolder{
+        TextView name, pos, nat;
+        VH(View v){
+            super(v);
+            name = v.findViewById(R.id.playerName);
+            pos  = v.findViewById(R.id.playerPosition);
+            nat  = v.findViewById(R.id.playerNationality);
         }
     }
 }

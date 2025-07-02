@@ -2,26 +2,50 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kicklog">
 
-    <!-- ★ インターネット通信許可 -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- ─────────────  権限  ───────────── -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- ────────────  アプリ  ──────────── -->
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KickLog">
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
 
+        <!-- 起動アクティビティ（リーグ選択／クラブ一覧） -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"> <!-- Android 12以降 必須 -->
+            android:exported="true">        <!-- Launcher は true 必須 -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-    </application>
+        <!-- クラブメニュー（選手／試合／スタッツ への入口） -->
+        <activity
+            android:name=".ClubMenuActivity"
+            android:exported="false"/>
 
+        <!-- 選手一覧 -->
+        <activity
+            android:name=".PlayersActivity"
+            android:exported="false"/>
+        <activity android:name=".PlayerDetailActivity"
+            android:exported="false"/>
+
+
+        <!-- 試合一覧 -->
+        <activity
+            android:name=".MatchesActivity"
+            android:exported="false"/>
+
+        <!-- チームスタッツ -->
+        <activity
+            android:name=".TeamStatsActivity"
+            android:exported="false"/>
+
+    </application>
 </manifest>
