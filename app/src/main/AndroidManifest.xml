@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kicklog">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- ─────────────  権限  ───────────── -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- ────────────  アプリ  ──────────── -->
     <application
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        android:theme="@style/Theme.Kicklog"
+        tools:targetApi="31">
 
-        <!-- 起動アクティビティ（リーグ選択／クラブ一覧） -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">        <!-- Launcher は true 必須 -->
+            android:name=".LeagueSelectionActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- クラブメニュー（選手／試合／スタッツ への入口） -->
         <activity
-            android:name=".ClubMenuActivity"
-            android:exported="false"/>
+            android:name=".MainActivity"
+            android:exported="false"
+            android:parentActivityName=".LeagueSelectionActivity"/>
 
-        <!-- 選手一覧 -->
         <activity
-            android:name=".PlayersActivity"
-            android:exported="false"/>
-        <activity android:name=".PlayerDetailActivity"
-            android:exported="false"/>
+            android:name=".TeamMenuActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
 
-
-        <!-- 試合一覧 -->
         <activity
-            android:name=".MatchesActivity"
-            android:exported="false"/>
+            android:name=".PlayerListActivity"
+            android:exported="false"
+            android:parentActivityName=".TeamMenuActivity" />
 
-        <!-- チームスタッツ -->
+        <activity
+            android:name=".PlayerDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".PlayerListActivity" />
+
+        <activity
+            android:name=".MatchListActivity"
+            android:exported="false"
+            android:parentActivityName=".TeamMenuActivity" />
+
         <activity
             android:name=".TeamStatsActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:parentActivityName=".TeamMenuActivity" />
+
+        <activity
+            android:name=".PlayerImpactActivity"
+            android:exported="false"
+            android:parentActivityName=".PlayerDetailActivity" />
 
     </application>
 </manifest>

@@ -1,9 +1,8 @@
-// com/example/kicklog/model/Team.java を修正
 package com.example.kicklog.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Team {
+public class Player {
     // 🔽 --- ここから追加 --- 🔽
     @SerializedName("id")
     private int id;
@@ -12,8 +11,8 @@ public class Team {
     @SerializedName("name")
     private String name;
 
-    @SerializedName("crest")
-    private String crest;
+    @SerializedName("nationality")
+    private String nationality;
 
     // 🔽 --- ここから追加 --- 🔽
     public int getId() {
@@ -25,7 +24,7 @@ public class Team {
         return name;
     }
 
-    public String getCrest() {
-        return crest;
+    public String getNationality() {
+        return nationality;
     }
 }

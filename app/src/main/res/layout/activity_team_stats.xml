@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".TeamStatsActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="シーズン選択"
+            android:labelFor="@+id/spinnerSeasons"/>
+
+        <Spinner
+            android:id="@+id/spinnerSeasons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBarStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/statsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView android:id="@+id/textViewPosition" android:textSize="18sp" tools:text="順位: 1位" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp"/>
+                    <TextView android:id="@+id/textViewPoints" android:textSize="18sp" tools:text="勝ち点: 93" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginBottom="16dp"/>
+                    <TextView android:id="@+id/textViewPlayedGames" tools:text="試合数: 38" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/textViewWon" tools:text="勝利: 29" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/textViewDraw" tools:text="引分: 6" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/textViewLost" tools:text="敗戦: 3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginBottom="16dp"/>
+                    <TextView android:id="@+id/textViewGoalsFor" tools:text="総得点: 94" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/textViewGoalsAgainst" tools:text="総失点: 33" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/textViewGoalDifference" tools:text="得失点差: +61" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"/>
+                    <TextView android:id="@+id/textViewHomeStats" tools:text="ホーム: 15勝 2分 2敗" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/textViewAwayStats" tools:text="アウェイ: 14勝 4分 1敗" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="チーム内得点ランキング" android:textSize="16sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+                    <TextView android:id="@+id/textViewTopScorers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="14sp" tools:text="1. Erling Haaland (36)\n2. Phil Foden (11)\n3. Julián Álvarez (9)"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

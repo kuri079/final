@@ -5,4 +5,6 @@
     <color name="teal_700">#018786</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="spinner_league_bg">#4CAF50</color>   <!-- 緑 -->
+    <color name="spinner_team_bg">#2196F3</color>
 </resources>

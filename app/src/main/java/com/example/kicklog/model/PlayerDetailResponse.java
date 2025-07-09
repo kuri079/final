@@ -1,39 +1,33 @@
-// model/PlayerDetailResponse.java
 package com.example.kicklog.model;
-
-import java.util.List;
-
 public class PlayerDetailResponse {
+    private int id;
+    private String name;
+    private String nationality;
+    private String position;
+    private String dateOfBirth;
+    private Team currentTeam;
 
-    public Player player;
-    public List<Statistics> statistics;  // API は配列だが 1 シーズン指定なら 1 要素
-
-    public static class Player {
-        public int id;
-        public String name;
-        public int age;
-        public String nationality;
-        public String position;
-        public String photo;
+    public int getId() {
+        return id;
     }
 
-    public static class Statistics {
-        public Games games;
-        public Goals goals;
-        public Cards cards;
+    public String getName() {
+        return name;
     }
 
-    public static class Games {
-        public int appearances;
-        public int minutes;
+    public String getNationality() {
+        return nationality;
     }
-    public static class Goals {
-        public Integer total;
-        public Integer assists;
+
+    public String getPosition() {
+        return position;
     }
-    public static class Cards {
-        public int yellow;
-        public int red;
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Team getCurrentTeam() {
+        return currentTeam;
     }
 }
-

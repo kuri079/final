@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">KickLog</string>
+    <string name="player_impact_title">選手別インパクト可視化</string>
+    <string name="played_win_rate">出場時勝率</string>
+    <string name="subbed_win_rate">非出場時勝率</string>
+    <string name="when_played">出場時</string>
+    <string name="when_subbed">非出場時</string>
+    <!-- res/values/strings.xml -->
+    <string name="desc_league_spinner">リーグを選択</string>
+    <string name="desc_team_spinner">クラブを選択</string>
+    <string name="desc_player_list">選手一覧</string>
+    <string name="match_list_desc">試合一覧</string>
+    <string name="scorer_list_description">得点ランキングのリスト</string>
+
 
     <!-- 表示名とコードをペアで定義 -->
     <string-array name="league_names">

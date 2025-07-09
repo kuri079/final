@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageViewTeamCrest"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@mipmap/ic_launcher"
+            android:contentDescription="チームエンブレム" />
+
+        <TextView
+            android:id="@+id/textViewPlayerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="#111827"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayoutGoals"
+            app:layout_constraintStart_toEndOf="@id/imageViewTeamCrest"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="8dp"
+            tools:text="選手名がここに入ります" />
+
+        <TextView
+            android:id="@+id/textViewTeamName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#6B7280"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/textViewPlayerName"
+            app:layout_constraintStart_toStartOf="@id/textViewPlayerName"
+            app:layout_constraintTop_toBottomOf="@id/textViewPlayerName"
+            tools:text="チーム名" />
+
+        <TextView
+            android:id="@+id/textViewPlayerNationality"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#6B7280"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/textViewPlayerName"
+            app:layout_constraintStart_toStartOf="@id/textViewPlayerName"
+            app:layout_constraintTop_toBottomOf="@id/textViewTeamName"
+            tools:text="国籍" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewGoals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#D32F2F"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:text="30" />
+
+            <TextView
+                android:id="@+id/textViewGoalsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goals"
+                android:textColor="#D32F2F"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
