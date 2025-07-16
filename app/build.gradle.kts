@@ -27,7 +27,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // BuildConfigフィールドにAPIキーを追加
+        // FootballData APIキー
         buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("FOOTBALL_DATA_API_KEY")}\"")
+        // Gemini APIキー
+        buildConfigField("String", "GEMINI_API_KEY", "\"${localProperties.getProperty("API_KEY_GEMINI")}\"")
     }
 
     buildTypes {
@@ -42,7 +45,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
+        buildConfig = true // BuildConfigを有効にする
     }
 }
 
@@ -54,9 +57,16 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    // 🔽 --- ここから追加、またはコメントアウトを外す --- 🔽
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    // 🔼 --- ここまで --- 🔼
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") // (もしChartsを使わないなら不要)
+
+    // ★★★ ここにログインターセプターの依存関係を追加 ★★★
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation("androidx.palette:palette-ktx:1.0.0") // Kotlinプロジェクトの場合
+    // もしJavaプロジェクトでktxを使わないなら implementation("androidx.palette:palette:1.0.0")
+
 }

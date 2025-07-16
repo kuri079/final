@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MatchDetailActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBarDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ScrollView
+        android:id="@+id/matchPreviewScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/matchPreviewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/imageViewHomeCrest_preview"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="4dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+                    <TextView
+                        android:id="@+id/textViewHomeTeamName_preview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="ホームチーム名"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VS"
+                    android:textSize="20sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/imageViewAwayCrest_preview"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="4dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+                    <TextView
+                        android:id="@+id/textViewAwayTeamName_preview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="アウェイチーム名"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewMatchDatePreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
+                tools:text="2025-08-16 04:00" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ホームチームの成績"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginBottom="16dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="基本情報"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/textViewHomeBasicStats"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                tools:text="順位: 1位\n勝ち点: 84"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="戦績"
+                                android:textStyle="bold"
+                                android:layout_marginTop="8dp"/>
+                            <TextView
+                                android:id="@+id/textViewHomeMatchStats"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                tools:text="試合数: 38\n勝利: 25\n引分: 9\n敗戦: 4\n得失点差: +45 (86-41)"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="アウェイチームの成績"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="4dp"
+                        android:layout_marginBottom="16dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="基本情報"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/textViewAwayBasicStats"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                tools:text="順位: 1位\n勝ち点: 84"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="戦績"
+                                android:textStyle="bold"
+                                android:layout_marginTop="8dp"/>
+                            <TextView
+                                android:id="@+id/textViewAwayMatchStats"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                tools:text="試合数: 38\n勝利: 25\n引分: 9\n敗戦: 4\n得失点差: +45 (86-41)"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AI予想"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/textViewAIAnalysis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="AIが分析中です..."
+                        android:textSize="14sp"/>
+                    <ProgressBar
+                        android:id="@+id/progressBarAI"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="visible"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ホームチーム内得点ランキング"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/textViewHomeTopScorers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="データがありません"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="アウェイチーム内得点ランキング"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/textViewAwayTopScorers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="データがありません"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/matchResultContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/imageViewHomeCrest"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginBottom="8dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+                    <TextView
+                        android:id="@+id/textViewHomeTeamName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="ホームチーム名"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewFinalScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    tools:text="3 - 1"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/imageViewAwayCrest"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginBottom="8dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+                    <TextView
+                        android:id="@+id/textViewAwayTeamName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="アウェイチーム名"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewMatchDateDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp"
+                tools:text="2025-08-16 04:00"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ラインナップ"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ホーム"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/textViewHomeLineup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="1. GK\n2. DF\n3. MF\n4. FW"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="アウェイ"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/textViewAwayLineup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="1. GK\n2. DF\n3. MF\n4. FW"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewGoals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="得点"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/textViewGoals"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="10' 選手A (H)\n25' 選手B (A)"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewBookings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="警告・退場"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/textViewBookings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="🟨 30' 選手C (H)\n🟥 60' 選手D (A)"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

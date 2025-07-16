@@ -5,12 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class Scorer {
     @SerializedName("player")
     private Player player;
-
     @SerializedName("team")
     private Team team;
-
     @SerializedName("goals")
-    private int goals;
+    private Integer goals; // ★★★ここを 'int' から 'Integer' に変更しました ★★★
 
     public Player getPlayer() {
         return player;
@@ -20,7 +18,7 @@ public class Scorer {
         return team;
     }
 
-    public int getGoals() {
+    public Integer getGoals() { // ★★★ getterの戻り値も 'Integer' に変更しました ★★★
         return goals;
     }
 }

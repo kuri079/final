@@ -1,4 +1,3 @@
-// 新規作成: com/example/kicklog/PlayerAdapter.java
 package com.example.kicklog;
 
 import android.view.LayoutInflater;
@@ -24,9 +23,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         this.listener = listener;
     }
 
-    @NonNull @Override
+    @NonNull
+    @Override
     public PlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player, parent, false);
         return new PlayerViewHolder(view);
     }
 
@@ -37,17 +37,43 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     }
 
     @Override
-    public int getItemCount() { return playerList.size(); }
+    public int getItemCount() {
+        return playerList.size();
+    }
 
     static class PlayerViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView textViewNumber, textViewName, textViewPosition;
+
         public PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+            textViewNumber = itemView.findViewById(R.id.textViewPlayerNumber);
+            textViewName = itemView.findViewById(R.id.textViewPlayerName);
+            textViewPosition = itemView.findViewById(R.id.textViewPlayerPosition);
         }
+
         public void bind(final Player player, final OnPlayerClickListener listener) {
-            textView.setText(player.getName());
-            itemView.setOnClickListener(v -> listener.onPlayerClick(player));
+            textViewName.setText(player.getName());
+
+            // ポジション情報があれば表示、なければ非表示
+            if (player.getPosition() != null && !player.getPosition().isEmpty()) {
+                textViewPosition.setVisibility(View.VISIBLE);
+                textViewPosition.setText(player.getPosition());
+                textViewPosition.setText(PositionUtils.abbreviate(player.getPosition()));
+            } else {
+                textViewPosition.setVisibility(View.GONE);
+            }
+
+            // 背番号情報があれば表示
+            if (player.getShirtNumber() != null) {
+                textViewNumber.setText(String.valueOf(player.getShirtNumber()));
+            } else {
+                textViewNumber.setText(""); // なければ空文字
+            }
+
+            // リスナーが設定されていればクリック処理を有効化
+            if (listener != null) {
+                itemView.setOnClickListener(v -> listener.onPlayerClick(player));
+            }
         }
     }
 }
