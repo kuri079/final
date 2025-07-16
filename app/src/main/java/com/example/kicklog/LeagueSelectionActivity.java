@@ -16,6 +16,7 @@ import java.util.List;
 public class LeagueSelectionActivity extends AppCompatActivity {
 
     public static final String EXTRA_LEAGUE_ID = "extra_league_id";
+    public static final String EXTRA_LEAGUE_NAME = "extra_league_name";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class LeagueSelectionActivity extends AppCompatActivity {
         LeagueAdapter adapter = new LeagueAdapter(leagues, league -> {
             Intent intent = new Intent(LeagueSelectionActivity.this, MainActivity.class);
             intent.putExtra(EXTRA_LEAGUE_ID, league.getCode());
+            intent.putExtra(EXTRA_LEAGUE_NAME, league.getName());
             startActivity(intent);
         });
 
