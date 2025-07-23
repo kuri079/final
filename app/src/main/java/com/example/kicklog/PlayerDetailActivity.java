@@ -32,19 +32,19 @@ import com.example.kicklog.network.GeminiApiService;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.ParseException; // Importを追加
+import java.text.SimpleDateFormat; // Importを追加
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Date; // Importを追加
 import java.util.List;
-import java.util.Locale;
+import java.util.Locale; // Importを追加
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// ★★★ ここからインターフェースの実装を削除 ★★★
-public class PlayerDetailActivity extends AppCompatActivity { // 'implements PlayerAdapter.OnPlayerClickListener' を削除
+// PlayerDetailActivityはPlayerAdapter.OnPlayerClickListenerを実装しません
+public class PlayerDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_PLAYER_ID = "extra_player_id";
     public static final String EXTRA_TEAM_ID = "extra_team_id";
@@ -119,7 +119,6 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
 
     private void fetchPlayerDetails(int playerId) {
         FootballDataApiService service = ApiClient.getClient().create(FootballDataApiService.class);
-        // TeamDetailResponseから選手リストを取得する
         Call<TeamDetailResponse> call = service.getTeamDetails(teamId, BuildConfig.API_KEY);
 
         call.enqueue(new Callback<TeamDetailResponse>() {
@@ -156,7 +155,6 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
     private void updatePlayerUI(Player player, String teamName) {
         textViewPlayerNameHeader.setText(player.getName());
         textViewTeamName.setText(teamName);
-        // nullチェックを追加し、値がない場合は「不明」と表示
         textViewNationality.setText("国籍: " + (player.getNationality() != null ? player.getNationality() : "不明"));
         textViewDateOfBirth.setText("誕生日: " + (player.getDateOfBirth() != null ? formatDate(player.getDateOfBirth()) : "不明"));
         textViewPlayerPosition.setText("ポジション: " + (player.getPosition() != null ? player.getPosition() : "不明"));
@@ -193,7 +191,6 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
                         if (response.isSuccessful() && response.body() != null && response.body().getScorers() != null) {
                             int playerGoals = 0;
                             for (Scorer scorer : response.body().getScorers()) {
-                                // Scorer.getGoals() が Integer なので null チェックが必要
                                 if (scorer.getPlayer() != null && scorer.getPlayer().getId() == playerId && scorer.getGoals() != null) {
                                     playerGoals = scorer.getGoals();
                                     break;
@@ -221,7 +218,6 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
         FootballDataApiService service = ApiClient.getClient().create(FootballDataApiService.class);
         final int season = Calendar.getInstance().get(Calendar.YEAR);
 
-        // ここで getStandings を呼び出す。StandingsResponseにはSquadは含まれない。
         Call<StandingsResponse> call = service.getStandings(leagueId, BuildConfig.API_KEY, season);
 
         call.enqueue(new Callback<StandingsResponse>() {
@@ -229,7 +225,7 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
             public void onResponse(@NonNull Call<StandingsResponse> call, @NonNull Response<StandingsResponse> response) {
                 if (isFinishing()) return;
                 if (response.isSuccessful() && response.body() != null) {
-                    teamSeasonStats = findTeamInStandings(response.body(), teamId); // 成績情報を保存
+                    teamSeasonStats = findTeamInStandings(response.body(), teamId);
                 } else {
                     Log.e(TAG, "Failed to fetch team standings. Code: " + response.code() + ", Message: " + response.message());
                     teamSeasonStats = null;
@@ -263,11 +259,9 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
         return null;
     }
 
-    // 全てのAPI呼び出しが完了したらAI分析をトリガーする
     private void onApiCallComplete() {
-        if (pendingApiCalls.decrementAndGet() == 0) { // 全てのAPI呼び出しが完了したら
+        if (pendingApiCalls.decrementAndGet() == 0) {
             if (currentPlayerDetails != null && currentTeamName != null) {
-                // シーズンゴール数も既にUIにセットされているはず
                 fetchPlayerAIAnalysis(currentPlayerDetails, currentTeamName, teamSeasonStats);
             } else {
                 textViewPlayerAIAnalysis.setText("AI分析に必要な選手情報が揃いませんでした。");
@@ -282,14 +276,14 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
 
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append("あなたはサッカー選手分析の専門家です。以下の選手とチームのデータに基づいて、");
-        promptBuilder.append("この選手のプレーススタイル、強み、弱み、チームへの貢献度について、データを用いて500文字程度で分析してください。\n\n");
+        promptBuilder.append("この選手のプレースタイル、強み、弱み、チームへの貢献度について、データを用いて500文字程度で分析してください。\n\n");
         promptBuilder.append("選手名: ").append(player.getName()).append("\n");
         promptBuilder.append("所属チーム: ").append(teamName).append("\n");
         promptBuilder.append("ポジション: ").append(player.getPosition() != null ? player.getPosition() : "不明").append("\n");
         promptBuilder.append("背番号: ").append(player.getShirtNumber() != null ? player.getShirtNumber() : "不明").append("\n");
         promptBuilder.append("国籍: ").append(player.getNationality() != null ? player.getNationality() : "不明").append("\n");
 
-        String playerGoalsText = textViewSeasonGoals.getText().toString(); // UIから直接取得
+        String playerGoalsText = textViewSeasonGoals.getText().toString();
         if (playerGoalsText.startsWith("リーグ戦ゴール数: ")) {
             playerGoalsText = playerGoalsText.replace("リーグ戦ゴール数: ", "").replace("点", "");
             if (!playerGoalsText.equals("データなし") && !playerGoalsText.equals("通信エラー") && !playerGoalsText.isEmpty()) {
@@ -297,119 +291,6 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
             }
         }
 
-
-        // チーム成績情報をプロンプトに追加
-        if (teamStats != null) {
-            promptBuilder.append("チーム成績:\n");
-            promptBuilder.append("- 順位: ").append(teamStats.getPosition()).append("位\n");
-            promptBuilder.append("- 勝ち点: ").append(teamStats.getPoints()).append("\n");
-            promptBuilder.append("- 試合数: ").append(teamStats.getPlayedGames()).append("\n");
-            promptBuilder.append("- 勝利: ").append(teamStats.getWon()).append(", 引分: ").append(teamStats.getDraw()).append(", 敗戦: ").append(teamStats.getLost()).append("\n");
-            promptBuilder.append("- 得失点差: ").append(teamStats.getGoalDifference()).append(" (").append(teamStats.getGoalsFor()).append("-").append(teamStats.getGoalsAgainst()).append(")\n");
-        } else {
-            promptBuilder.append("チーム成績: データなし\n");
-        }
-        promptBuilder.append("重要な注意: このAIはリアルタイムのデータにはアクセスできません。一般的なサッカー知識と提供された情報のみに基づいて分析を生成してください。");
-
-        String prompt = promptBuilder.toString();
-
-        GeminiApiService geminiService = GeminiApiClient.getClient().create(GeminiApiService.class);
-        GeminiRequest request = new GeminiRequest(
-                Collections.singletonList(
-                        new GeminiRequest.Content(
-                                Collections.singletonList(
-                                        new GeminiRequest.Part(prompt)
-                                )
-                        )
-                )
-        );
-
-        Call<GeminiResponse> call = geminiService.generateContent(BuildConfig.GEMINI_API_KEY, request);
-
-        call.enqueue(new Callback<GeminiResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<GeminiResponse> call, @NonNull Response<GeminiResponse> response) {
-                progressBarPlayerAI.setVisibility(View.GONE);
-                if (response.isSuccessful() && response.body() != null && !response.body().getCandidates().isEmpty()) {
-                    String aiText = response.body().getCandidates().get(0).getContent().getParts().get(0).getText();
-                    textViewPlayerAIAnalysis.setText(aiText);
-                    Log.d(TAG, "Player AI Analysis Response: " + aiText);
-                } else {
-                    String errorBody = "";
-                    try {
-                        if (response.errorBody() != null) {
-                            errorBody = response.errorBody().string();
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error parsing AI error body for player analysis", e);
-                    Log.e(TAG, "Failed to fetch team standings. Code: " + response.code() + ", Message: " + response.message());
-                    teamSeasonStats = null;
-                }
-                onApiCallComplete();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<StandingsResponse> call, @NonNull Throwable t) {
-                if (isFinishing()) return;
-                Log.e(TAG, "Network error fetching team standings.", t);
-                teamSeasonStats = null;
-                onApiCallComplete();
-            }
-        });
-    }
-
-    private TableEntry findTeamInStandings(StandingsResponse standings, int teamId) {
-        if (standings == null || standings.getStandings() == null) return null;
-        for (Standing standing : standings.getStandings()) {
-            if ("TOTAL".equals(standing.getType())) {
-                if (standing.getTable() != null) {
-                    for (TableEntry entry : standing.getTable()) {
-                        if (entry.getTeam() != null && entry.getTeam().getId() == teamId) {
-                            return entry;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    // 全てのAPI呼び出しが完了したらAI分析をトリガーする
-    private void onApiCallComplete() {
-        if (pendingApiCalls.decrementAndGet() == 0) { // 全てのAPI呼び出しが完了したら
-            if (currentPlayerDetails != null && currentTeamName != null) {
-                // シーズンゴール数も既にUIにセットされているはず
-                fetchPlayerAIAnalysis(currentPlayerDetails, currentTeamName, teamSeasonStats);
-            } else {
-                textViewPlayerAIAnalysis.setText("AI分析に必要な選手情報が揃いませんでした。");
-                progressBarPlayerAI.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private void fetchPlayerAIAnalysis(Player player, String teamName, TableEntry teamStats) {
-        progressBarPlayerAI.setVisibility(View.VISIBLE);
-        textViewPlayerAIAnalysis.setText("AIが分析中です...");
-
-        StringBuilder promptBuilder = new StringBuilder();
-        promptBuilder.append("あなたはサッカー選手分析の専門家です。以下の選手とチームのデータに基づいて、");
-        promptBuilder.append("この選手のプレーススタイル、強み、弱み、チームへの貢献度について、150文字程度で簡潔に分析してください。\n\n");
-        promptBuilder.append("選手名: ").append(player.getName()).append("\n");
-        promptBuilder.append("所属チーム: ").append(teamName).append("\n");
-        promptBuilder.append("ポジション: ").append(player.getPosition() != null ? player.getPosition() : "不明").append("\n");
-        promptBuilder.append("背番号: ").append(player.getShirtNumber() != null ? player.getShirtNumber() : "不明").append("\n");
-        promptBuilder.append("国籍: ").append(player.getNationality() != null ? player.getNationality() : "不明").append("\n");
-
-        String playerGoalsText = textViewSeasonGoals.getText().toString(); // UIから直接取得
-        if (playerGoalsText.startsWith("リーグ戦ゴール数: ")) {
-            playerGoalsText = playerGoalsText.replace("リーグ戦ゴール数: ", "").replace("点", "");
-            if (!playerGoalsText.equals("データなし") && !playerGoalsText.equals("通信エラー") && !playerGoalsText.isEmpty()) {
-                promptBuilder.append("リーグ戦ゴール数: ").append(playerGoalsText).append("点\n");
-            }
-        }
-
-
-        // チーム成績情報をプロンプトに追加
         if (teamStats != null) {
             promptBuilder.append("チーム成績:\n");
             promptBuilder.append("- 順位: ").append(teamStats.getPosition()).append("位\n");
