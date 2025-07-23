@@ -342,6 +342,117 @@ public class PlayerDetailActivity extends AppCompatActivity { // 'implements Pla
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing AI error body for player analysis", e);
+                    Log.e(TAG, "Failed to fetch team standings. Code: " + response.code() + ", Message: " + response.message());
+                    teamSeasonStats = null;
+                }
+                onApiCallComplete();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<StandingsResponse> call, @NonNull Throwable t) {
+                if (isFinishing()) return;
+                Log.e(TAG, "Network error fetching team standings.", t);
+                teamSeasonStats = null;
+                onApiCallComplete();
+            }
+        });
+    }
+
+    private TableEntry findTeamInStandings(StandingsResponse standings, int teamId) {
+        if (standings == null || standings.getStandings() == null) return null;
+        for (Standing standing : standings.getStandings()) {
+            if ("TOTAL".equals(standing.getType())) {
+                if (standing.getTable() != null) {
+                    for (TableEntry entry : standing.getTable()) {
+                        if (entry.getTeam() != null && entry.getTeam().getId() == teamId) {
+                            return entry;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    // 全てのAPI呼び出しが完了したらAI分析をトリガーする
+    private void onApiCallComplete() {
+        if (pendingApiCalls.decrementAndGet() == 0) { // 全てのAPI呼び出しが完了したら
+            if (currentPlayerDetails != null && currentTeamName != null) {
+                // シーズンゴール数も既にUIにセットされているはず
+                fetchPlayerAIAnalysis(currentPlayerDetails, currentTeamName, teamSeasonStats);
+            } else {
+                textViewPlayerAIAnalysis.setText("AI分析に必要な選手情報が揃いませんでした。");
+                progressBarPlayerAI.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void fetchPlayerAIAnalysis(Player player, String teamName, TableEntry teamStats) {
+        progressBarPlayerAI.setVisibility(View.VISIBLE);
+        textViewPlayerAIAnalysis.setText("AIが分析中です...");
+
+        StringBuilder promptBuilder = new StringBuilder();
+        promptBuilder.append("あなたはサッカー選手分析の専門家です。以下の選手とチームのデータに基づいて、");
+        promptBuilder.append("この選手のプレーススタイル、強み、弱み、チームへの貢献度について、150文字程度で簡潔に分析してください。\n\n");
+        promptBuilder.append("選手名: ").append(player.getName()).append("\n");
+        promptBuilder.append("所属チーム: ").append(teamName).append("\n");
+        promptBuilder.append("ポジション: ").append(player.getPosition() != null ? player.getPosition() : "不明").append("\n");
+        promptBuilder.append("背番号: ").append(player.getShirtNumber() != null ? player.getShirtNumber() : "不明").append("\n");
+        promptBuilder.append("国籍: ").append(player.getNationality() != null ? player.getNationality() : "不明").append("\n");
+
+        String playerGoalsText = textViewSeasonGoals.getText().toString(); // UIから直接取得
+        if (playerGoalsText.startsWith("リーグ戦ゴール数: ")) {
+            playerGoalsText = playerGoalsText.replace("リーグ戦ゴール数: ", "").replace("点", "");
+            if (!playerGoalsText.equals("データなし") && !playerGoalsText.equals("通信エラー") && !playerGoalsText.isEmpty()) {
+                promptBuilder.append("リーグ戦ゴール数: ").append(playerGoalsText).append("点\n");
+            }
+        }
+
+
+        // チーム成績情報をプロンプトに追加
+        if (teamStats != null) {
+            promptBuilder.append("チーム成績:\n");
+            promptBuilder.append("- 順位: ").append(teamStats.getPosition()).append("位\n");
+            promptBuilder.append("- 勝ち点: ").append(teamStats.getPoints()).append("\n");
+            promptBuilder.append("- 試合数: ").append(teamStats.getPlayedGames()).append("\n");
+            promptBuilder.append("- 勝利: ").append(teamStats.getWon()).append(", 引分: ").append(teamStats.getDraw()).append(", 敗戦: ").append(teamStats.getLost()).append("\n");
+            promptBuilder.append("- 得失点差: ").append(teamStats.getGoalDifference()).append(" (").append(teamStats.getGoalsFor()).append("-").append(teamStats.getGoalsAgainst()).append(")\n");
+        } else {
+            promptBuilder.append("チーム成績: データなし\n");
+        }
+        promptBuilder.append("重要な注意: このAIはリアルタイムのデータにはアクセスできません。一般的なサッカー知識と提供された情報のみに基づいて分析を生成してください。");
+
+        String prompt = promptBuilder.toString();
+
+        GeminiApiService geminiService = GeminiApiClient.getClient().create(GeminiApiService.class);
+        GeminiRequest request = new GeminiRequest(
+                Collections.singletonList(
+                        new GeminiRequest.Content(
+                                Collections.singletonList(
+                                        new GeminiRequest.Part(prompt)
+                                )
+                        )
+                )
+        );
+
+        Call<GeminiResponse> call = geminiService.generateContent(BuildConfig.GEMINI_API_KEY, request);
+
+        call.enqueue(new Callback<GeminiResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GeminiResponse> call, @NonNull Response<GeminiResponse> response) {
+                progressBarPlayerAI.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.body() != null && !response.body().getCandidates().isEmpty()) {
+                    String aiText = response.body().getCandidates().get(0).getContent().getParts().get(0).getText();
+                    textViewPlayerAIAnalysis.setText(aiText);
+                    Log.d(TAG, "Player AI Analysis Response: " + aiText);
+                } else {
+                    String errorBody = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error parsing AI error body for player analysis", e);
                     }
                     Log.e(TAG, "Failed to get player AI analysis: " + response.code() + " - " + errorBody);
                     textViewPlayerAIAnalysis.setText("AI分析の取得に失敗しました (APIエラー: " + response.code() + ")。");

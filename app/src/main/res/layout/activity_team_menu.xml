@@ -20,6 +20,7 @@
         android:layout_height="90dp"
         tools:src="@mipmap/ic_launcher"
         android:contentDescription="Team Crest"/>
+    tools:context=".TeamMenuActivity">
 
     <TextView
         android:id="@+id/textViewTeamNameMenu"
@@ -30,6 +31,32 @@
         android:textStyle="bold"
         tools:text="Liverpool FC" />
 </LinearLayout>
+    <LinearLayout
+        android:id="@+id/teamMenuHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <ImageView
+            android:id="@+id/imageViewTeamCrestMenu"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            tools:src="@mipmap/ic_launcher"
+            android:contentDescription="Team Crest"/>
+
+        <TextView
+            android:id="@+id/textViewTeamNameMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            tools:text="Liverpool FC" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,6 +79,19 @@
         android:textColor="@color/white"
         app:backgroundTint="?attr/colorPrimary"
         app:cornerRadius="8dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonPlayerList"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="選手一覧"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonTeamStats"
@@ -63,6 +103,21 @@
             android:textColor="@color/white"
             app:backgroundTint="?attr/colorPrimary"
             app:cornerRadius="8dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonMatchList"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="試合一覧"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonTeamStats"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="チーム成績"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLineup"
@@ -73,5 +128,13 @@
             android:textColor="@color/white"
             app:backgroundTint="?attr/colorPrimary"
             app:cornerRadius="8dp" />
+    </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLineup"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="スタメンを構成する"/>
+
     </LinearLayout>
 </LinearLayout>
